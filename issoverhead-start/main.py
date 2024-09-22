@@ -2,11 +2,12 @@ import requests
 from datetime import datetime
 import smtplib
 import time
+import os
 
 MY_LAT = 33.770050  # My latitude
 MY_LONG = -118.193741  # My longitude
-MY_EMAIL = "pythoncodetester4@gmail.com"
-PASSWORD = "zaaizqkyqbbloetb"
+MY_EMAIL = os.environ.get("MY_EMAIL")
+PASSWORD = os.environ.get("PASSWORD")
 
 
 def is_iss_overhead():
