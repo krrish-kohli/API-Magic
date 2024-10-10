@@ -1,8 +1,9 @@
 import requests
+import os
 from datetime import datetime
 
 USERNAME = "krrishkohli"
-TOKEN = "genije3g45e6jkmv"
+TOKEN = os.environ.get("TOKEN")
 GRAPH_ID = "graph"
 
 headers = {
