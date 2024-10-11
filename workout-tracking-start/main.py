@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 import os
 
-# TRY TO RUN IT WITH HARDCORE VALUES OF API KEY FIRST
+# TRY TO RUN IT WITH HARDCORE VALUES OF KEYS FIRST
 
 APP_ID = os.environ.get("APP_ID") # add your own
 API_KEY = os.environ.get("API_KEY") # add your own
