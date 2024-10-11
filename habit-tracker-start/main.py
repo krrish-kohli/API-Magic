@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 USERNAME = "krrishkohli"
-TOKEN = os.environ.get["TOKEN"]
+TOKEN = os.environ.get("TOKEN")
 GRAPH_ID = "graph"
 
 headers = {

@@ -7,10 +7,10 @@ STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 STOCK_URL = "https://www.alphavantage.co/query"
 NEWS_URL = "https://newsapi.org/v2/everything"
-STOCK_API = os.environ.get["STOCK_API"]  # Change this to your stock_api
-NEWS_API = os.environ.get["NEWS_API"]  # Change this to your news_api
-account_sid = os.environ.get["ACCOUNT_SID"]  # Change this to your account_sid
-auth_token = os.environ.get["AUTH_TOKEN"]  # Change this to your auth_token
+STOCK_API = os.environ.get("STOCK_API")  # Change this to your stock_api
+NEWS_API = os.environ.get("NEWS_API") # Change this to your news_api
+account_sid = os.environ.get("ACCOUNT_SID")  # Change this to your account_sid
+auth_token = os.environ.get("AUTH_TOKEN")  # Change this to your auth_token
 
 # Used https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
