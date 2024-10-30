@@ -19,7 +19,12 @@ if sheet_data[0]["iataCode"] == "":
     data_manager.destination_data = sheet_data
     data_manager.update_sheet_data()
 
-# ==================== Searching for the cheapest flight and sending SMS =======================
+# ==================== Retrieving customer emails =======================
+customer_data = data_manager.get_customer_emails()
+# Retrieving the emails from all the responses
+customer_email_list = [row["whatIsYourEmail?"] for row in customer_data]
+
+# ==================== Searching for the cheapest direct flight =======================
 for destination in sheet_data:
     print(f"Getting flights for {destination['city']}...")
     flights = flight_search.flight_prices("LAX", destination['iataCode'])
@@ -27,9 +32,40 @@ for destination in sheet_data:
     print(f"{destination['city']}: ${cheapest_flight.price}")
     time.sleep(2)
 
+# ==================== Updating the IATA code for the places in Google Sheet =======================
+    if cheapest_flight.price == "N/A":
+        print(f"No direct flight to {destination['city']}. Looking for indirect flights...")
+        stopover_flights = flight_search.flight_prices("LAX", destination['iataCode'])
+        cheapest_flight = flight_data.find_cheapest_flight(stopover_flights)
+        print(f"Cheapest indirect flight price is: ${cheapest_flight.price}")
+        time.sleep(2)
+
+# ==================== Sending sms and emails=======================
     if cheapest_flight.price != "N/A" and cheapest_flight.price < destination["lowestPrice"]:
-        notification_manager.send_message(message_body=f"Low price alert! Only {cheapest_flight.price} to fly "
-                                                       f"from {cheapest_flight.origin_airport} "
-                                                       f"to {cheapest_flight.destination_airport}, on "
-                                                       f"{cheapest_flight.out_date} "
-                                                       f"until {cheapest_flight.return_date}.")
+        if cheapest_flight.stops == 0:
+            notification_manager.send_message(message_body=f"Low price alert! Only ${cheapest_flight.price} to fly "
+                                                           f"from {cheapest_flight.origin_airport} "
+                                                           f"to {cheapest_flight.destination_airport}, on "
+                                                           f"{cheapest_flight.out_date} "
+                                                           f"until {cheapest_flight.return_date}.")
+            notification_manager.send_emails(users=customer_email_list, body=f"Low price alert! "
+                                                                             f"Only ${cheapest_flight.price} to fly "
+                                                                             f"from {cheapest_flight.origin_airport} "
+                                                                             f"to {cheapest_flight.destination_airport}"
+                                                                             f", on {cheapest_flight.out_date} "
+                                                                             f"until {cheapest_flight.return_date}.")
+        else:
+            notification_manager.send_message(message_body=f"Low price alert! "
+                                                           f"Only ${cheapest_flight.price} to fly "
+                                                           f"from {cheapest_flight.origin_airport} "
+                                                           f"to {cheapest_flight.destination_airport} "
+                                                           f"with {cheapest_flight.stops} stop(s) "
+                                                           f", on {cheapest_flight.out_date} "
+                                                           f"until {cheapest_flight.return_date}.")
+            notification_manager.send_emails(users=customer_email_list, body=f"Low price alert! "
+                                                                             f"Only ${cheapest_flight.price} to fly "
+                                                                             f"from {cheapest_flight.origin_airport} "
+                                                                             f"to {cheapest_flight.destination_airport}"
+                                                                             f" with {cheapest_flight.stops} stop(s) "
+                                                                             f", on {cheapest_flight.out_date} "
+                                                                             f"until {cheapest_flight.return_date}.")

@@ -58,6 +58,8 @@ class FlightSearch:
 
     def flight_prices(self, arrival, destination):
         """This function searches for the flight options from the specified arrival and destination place."""
+        is_direct = True
+
         headers = {
             "Authorization": f"Bearer {self._token}"
         }
@@ -72,6 +74,7 @@ class FlightSearch:
             "departureDate": departure_date.strftime("%Y-%m-%d"),
             "returnDate": return_date.strftime("%Y-%m-%d"),
             "currencyCode": "USD",
+            "nonStop": "true" if is_direct else "false",
             "max": "10",
         }
         # Using the Amadeus API to get the different flight options.
