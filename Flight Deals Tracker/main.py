@@ -4,6 +4,9 @@ from flight_search import FlightSearch
 import flight_data
 from notification_manager import NotificationManager
 
+# Link for adding yourself as a user: https://docs.google.com/forms/d/e/1FAIpQLSely-_OMxh5SFnKL8hVvZhHIvIGHrKsHGojjd_3ELf3ckYYvQ/viewform?usp=sf_link
+# Link for adding more airports to the sheet: https://docs.google.com/spreadsheets/d/1nZmN_7PmAi9Hop7_hNs4y2mdq-P_dOfYXGA_mLv4oFU/edit?gid=0#gid=0
+
 # ==================== Retrieving the sheet data=======================
 data_manager = DataManager()
 flight_search = FlightSearch()
